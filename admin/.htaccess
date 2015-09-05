@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Admin"
+AuthUserFile "/home2/pbale95/.htpasswds/public_html/kappasigmagames.com/admin/passwd"
+require valid-user
