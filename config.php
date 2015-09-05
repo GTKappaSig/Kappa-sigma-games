@@ -1,9 +1,9 @@
 <?php 
 require_once "Mail.php";
 $db_host = "localhost";
-$db_admin = "pbale95_stigma";
-$db_admin_pass = "kappasigma1123"; 
-$db_main = "pbale95_breakingstigma";
+$db_admin = "logik_ksgames";
+$db_admin_pass = "ksgamespass"; 
+$db_main = "logik_ksgames";
 connect($db_admin, $db_admin_pass, $db_main);
 
 date_default_timezone_set("America/New_York"); 
@@ -23,19 +23,19 @@ function doesRecordExist($table, $field, $value) {
 }
 
 function getUserByEmail($email) { 
-$result = mysql_query("SELECT * FROM `users_2014` WHERE `email` = '$email'") or die(mysql_error()); 
+$result = mysql_query("SELECT * FROM `players_2015` WHERE `email` = '$email'") or die(mysql_error()); 
 $row = mysql_fetch_array($result);  	
 return $row;
 }
 
 function getPasswordByEmail($email) { 
-$result = mysql_query("SELECT * FROM `users_2014` WHERE `email` = '$email'") or die(mysql_error()); 
+$result = mysql_query("SELECT * FROM `players_2015` WHERE `email` = '$email'") or die(mysql_error()); 
 $row = mysql_fetch_array($result);  	
 return $row['password'];
 }
 
 function getUser($id) {
-$result = mysql_query("SELECT * FROM `users_2014` WHERE `id` = '$id'") or die(mysql_error()); 
+$result = mysql_query("SELECT * FROM `players_2015` WHERE `id` = '$id'") or die(mysql_error()); 
 $row = mysql_fetch_array($result);  	
 return $row;
 }
@@ -56,7 +56,7 @@ function checkUser($email, $pass) {
 }
 
 function isEmailUsed($email) {
- $result = mysql_query("SELECT * FROM `users_2014` WHERE `email` = '$email'") or die(mysql_error()); 
+ $result = mysql_query("SELECT * FROM `players_2015` WHERE `email` = '$email'") or die(mysql_error()); 
  $num_rows = mysql_num_rows($result);
  if ($num_rows > 0) {
  	return 1;
@@ -66,11 +66,11 @@ function isEmailUsed($email) {
 }
 
 function markPaid($id, $txn_id, $payer_email) {
-	mysql_query("UPDATE `users_2014` SET `trans_id` = '$txn_id', `paid` = 1, `payer_email` = '$payer_email' WHERE `id` = '$id';") or die(mysql_error());
+	mysql_query("UPDATE `players_2015` SET `trans_id` = '$txn_id', `paid` = 1, `payer_email` = '$payer_email' WHERE `id` = '$id';") or die(mysql_error());
 }
 
 function createUser($name, $email, $phone, $shirt, $pass) {
-	mysql_query("INSERT INTO `users_2014` (`name`, `email`, `phone`, `shirt`, `password`) values ('$name', '$email', '$phone', '$shirt', '$pass')") or die(mysql_error());
+	mysql_query("INSERT INTO `players_2015` (`name`, `email`, `phone`, `shirt`, `password`) values ('$name', '$email', '$phone', '$shirt', '$pass')") or die(mysql_error());
 	emailUser($email, $name);
 }
 
@@ -78,7 +78,7 @@ function emailUser($to, $name) {
 	$from = 'KappaSigmaGames@gmail.com';
 	$subject = 'Kappa Sigma Games';
 	$body = $name.",<br /><br />";
-	$body .= "<head><body>Thank you for registering for the Inaugural Kappa Sigma Games: Kick the Stigma! We're excited for a fun day of games and activities while helping a great cause, and we hope you are too!<br /><br />";
+	$body .= "<head><body>Thank you for registering for the Second Annual Kappa Sigma Games: Kick the Stigma! We're excited for a fun day of games and activities while helping a great cause, and we hope you are too!<br /><br />";
 	$body .= "A few reminders before the event: <br /><br />";
 	$body .= "1) Remember to pay before the event! This can be done at our website (http://kappasigmagames.com) and must be completed prior to the event. Be sure to make sure your teammates have paid as well! <br /><br />";
 	$body .= "2) OPEN the attached Google Form and agree to our Liability Waiver <a href='https://docs.google.com/forms/d/1dfCGMcJ5EsFvkdOPYe7WUsWnlTXcCJpRJrv7szdkrPg/viewform'>here</a> for the event. Once again, this must be completed by ALL players for your team to be eligible to compete. <br /><br />";
@@ -111,16 +111,16 @@ function emailUser($to, $name) {
 }
 
 function createTeam($name, $adminId) {
-	mysql_query("INSERT INTO `teams_2014` (`name`, `admin_id`) values ('$name', '$adminId')") or die(mysql_error());
+	mysql_query("INSERT INTO `teams_2015` (`name`, `admin_id`) values ('$name', '$adminId')") or die(mysql_error());
 	return mysql_insert_id();
 }
 
 function joinTeam($id, $teamId) {
-	mysql_query("UPDATE `users_2014` SET `team_id` = '$teamId' WHERE `id` = '$id';") or die(mysql_error());
+	mysql_query("UPDATE `players_2015` SET `team_id` = '$teamId' WHERE `id` = '$id';") or die(mysql_error());
 }
 
 function isTeamUsed($name) {
- $result = mysql_query("SELECT * FROM `teams_2014` WHERE `name` = '$name'") or die(mysql_error()); 
+ $result = mysql_query("SELECT * FROM `teams_2015` WHERE `name` = '$name'") or die(mysql_error()); 
  $num_rows = mysql_num_rows($result);
  if ($num_rows > 0) {
  	return 1;
@@ -137,57 +137,57 @@ function logout($redirect) {
 }
 
 function getTeam($teamId) {
-	$result = mysql_query("SELECT * FROM `teams_2014` WHERE `id` = '$teamId'") or die(mysql_error()); 
+	$result = mysql_query("SELECT * FROM `teams_2015` WHERE `id` = '$teamId'") or die(mysql_error()); 
 	$row = mysql_fetch_array($result);  	
 	return $row;
 }
 
 function getTeamMemberArray($teamId) {
-	$result = mysql_query("SELECT * FROM `users_2014` WHERE `team_id` = '$teamId'") or die(mysql_error()); 
+	$result = mysql_query("SELECT * FROM `users_2015` WHERE `team_id` = '$teamId'") or die(mysql_error()); 
 	return $result;
 }
 
 function getAllUsers() {
-	$result = mysql_query("SELECT *, users_2014.name as userName FROM `users_2014` LEFT JOIN `teams_2014` on users_2014.team_id = teams_2014.id ORDER BY  users_2014.name") or die(mysql_error()); 
+	$result = mysql_query("SELECT *, players_2015.name as userName FROM `players_2015` LEFT JOIN `teams_2015` on players_2015.team_id = teams_2015.id ORDER BY  players_2015.name") or die(mysql_error()); 
 	return $result;	
 }
 
 function getAllTeams() {
-	$result = mysql_query("SELECT * FROM `teams_2014` GROUP BY name ORDER BY  name") or die(mysql_error()); 
+	$result = mysql_query("SELECT * FROM `teams_2015` GROUP BY name ORDER BY  name") or die(mysql_error()); 
 	return $result;	
 }
 
 function isTeamValid($teamId) {
-	$result = mysql_query("SELECT * FROM `teams_2014` WHERE `id` = '$teamId'") or die(mysql_error());
+	$result = mysql_query("SELECT * FROM `teams_2015` WHERE `id` = '$teamId'") or die(mysql_error());
 	return (mysql_num_rows($result) > 0);
 }
 
 function getTeamCount($teamId) {
-	$result = mysql_query("SELECT * FROM `users_2014` WHERE `team_id` = '$teamId'") or die(mysql_error()); 
+	$result = mysql_query("SELECT * FROM `users_2015` WHERE `team_id` = '$teamId'") or die(mysql_error()); 
 	$num_rows = mysql_num_rows($result);
  	return $num_rows;
 }
 
 function getTeamCountPaid($teamId) {
-	$result = mysql_query("SELECT * FROM `users_2014` WHERE `team_id` = '$teamId' AND `paid` = '1'") or die(mysql_error()); 
+	$result = mysql_query("SELECT * FROM `users_2015` WHERE `team_id` = '$teamId' AND `paid` = '1'") or die(mysql_error()); 
 	$num_rows = mysql_num_rows($result);
  	return $num_rows;
 }
 
 function getUserCount() {
-	$result = mysql_query("SELECT * FROM `users_2014`") or die(mysql_error()); 
+	$result = mysql_query("SELECT * FROM `users_2015`") or die(mysql_error()); 
 	$num_rows = mysql_num_rows($result);
  	return $num_rows;
 }
 
 function getPaidCount() {
-	$result = mysql_query("SELECT * FROM `users_2014` WHERE `paid` = '1'") or die(mysql_error()); 
+	$result = mysql_query("SELECT * FROM `users_2015` WHERE `paid` = '1'") or die(mysql_error()); 
 	$num_rows = mysql_num_rows($result);
  	return $num_rows;
 }
 
 function getTotalTeamCount() {
-	$result = mysql_query("SELECT * FROM `teams_2014`") or die(mysql_error()); 
+	$result = mysql_query("SELECT * FROM `teams_2015`") or die(mysql_error()); 
 	$num_rows = mysql_num_rows($result);
  	return $num_rows;
 }
