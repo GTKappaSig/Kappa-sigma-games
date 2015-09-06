@@ -143,7 +143,7 @@ function getTeam($teamId) {
 }
 
 function getTeamMemberArray($teamId) {
-	$result = mysql_query("SELECT * FROM `users_2015` WHERE `team_id` = '$teamId'") or die(mysql_error()); 
+	$result = mysql_query("SELECT * FROM `players_2015` WHERE `team_id` = '$teamId'") or die(mysql_error()); 
 	return $result;
 }
 
@@ -163,25 +163,25 @@ function isTeamValid($teamId) {
 }
 
 function getTeamCount($teamId) {
-	$result = mysql_query("SELECT * FROM `users_2015` WHERE `team_id` = '$teamId'") or die(mysql_error()); 
+	$result = mysql_query("SELECT * FROM `players_2015` WHERE `team_id` = '$teamId'") or die(mysql_error()); 
 	$num_rows = mysql_num_rows($result);
  	return $num_rows;
 }
 
 function getTeamCountPaid($teamId) {
-	$result = mysql_query("SELECT * FROM `users_2015` WHERE `team_id` = '$teamId' AND `paid` = '1'") or die(mysql_error()); 
+	$result = mysql_query("SELECT * FROM `players_2015` WHERE `team_id` = '$teamId' AND `paid` = '1'") or die(mysql_error()); 
 	$num_rows = mysql_num_rows($result);
  	return $num_rows;
 }
 
 function getUserCount() {
-	$result = mysql_query("SELECT * FROM `users_2015`") or die(mysql_error()); 
+	$result = mysql_query("SELECT * FROM `players_2015`") or die(mysql_error()); 
 	$num_rows = mysql_num_rows($result);
  	return $num_rows;
 }
 
 function getPaidCount() {
-	$result = mysql_query("SELECT * FROM `users_2015` WHERE `paid` = '1'") or die(mysql_error()); 
+	$result = mysql_query("SELECT * FROM `players_2015` WHERE `paid` = '1'") or die(mysql_error()); 
 	$num_rows = mysql_num_rows($result);
  	return $num_rows;
 }
